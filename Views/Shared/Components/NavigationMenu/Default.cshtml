@@ -12,7 +12,7 @@
                 @foreach(var menuItem in Model)  // Model은 NavigationMenuViewComponent의 menuItem
                 {
                     <li class="nav-item">
-                        <a class="nav-link text-dark"  asp-controller="@menuItem.Controller" asp-action="@menuItem.Action">@MenuItem.Label</a>
+                        <a class="nav-link text-dark"  asp-controller="@menuItem.Controller" asp-action="@menuItem.Action">@menuItem.Label</a>
                     </li>
                 }
             </ul>
