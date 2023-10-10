@@ -38,6 +38,20 @@
                 <input asp-for="MSRP" class="form-control" />
                 <span asp-validation-for="MSRP" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="Weight" class="control-label"></label>
+                <input asp-for="Weight" class="form-control" />
+                <span asp-validation-for="Weight" class="text-danger"></span>
+            </div>
+
+            <!-- 추가 -->
+            <div class="form-group">
+                <label asp-for="WeightUnit" class="control-label"></label>
+                <select asp-for="WeightUnit" class ="form-control" asp-items="ViewBag.WeightUnit"></select>
+                <span asp-validation-for="WeightUnit" class="text-danger"></span>
+            </div>
+            
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

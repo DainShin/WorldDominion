@@ -45,12 +45,16 @@ namespace WorldDominion.Controllers
         }
 
         // GET: Products/Create
+        // 유저에게 제공되는 인터페이스
         public IActionResult Create()
         {
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name");
+            //열거형에서 모든 레이블을 읽고 레이블을 사용하면 값이 자동으로 해당 정수와 연결됨
+            ViewData["WeightUnit"] = new SelectList(Enum.GetValues(typeof (ProductWeightUnit)));
             return View();
         }
 
+        // 이부분은 프로세스
         // POST: Products/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -65,6 +69,7 @@ namespace WorldDominion.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", product.DepartmentId);
+            ViewData["WeightUnit"] = new SelectList(Enum.GetValues(typeof (ProductWeightUnit)));
             return View(product);
         }
 
@@ -82,6 +87,7 @@ namespace WorldDominion.Controllers
                 return NotFound();
             }
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", product.DepartmentId);
+            ViewData["WeightUnit"] = new SelectList(Enum.GetValues(typeof (ProductWeightUnit)));
             return View(product);
         }
 
@@ -118,6 +124,7 @@ namespace WorldDominion.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", product.DepartmentId);
+            ViewData["WeightUnit"] = new SelectList(Enum.GetValues(typeof (ProductWeightUnit)));
             return View(product);
         }
 

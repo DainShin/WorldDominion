@@ -70,3 +70,8 @@ namespace WorldDominion.Migrations
         }
     }
 }
+
+
+// 마이그레이션을 실행, 업데이트 실행할때 가장 먼저하는 일은 down
+// up : 테이블 생성 등..
+
