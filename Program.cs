@@ -12,8 +12,17 @@ var connectionString = builder.Configuration.GetConnectionString("Default") ?? t
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseMySQL(connectionString));
 
+// Enabling Sessions
+builder.Services.AddSession(options => {
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // 쇼핑카트는 30분동안 저장됨
+    options.Cookie.HttpOnly = true; // cookie only can come from the browser
+    options.Cookie.IsEssential = true; 
+});
 
 var app = builder.Build();
+
+// Turn on our seesions
+app.UseSession(); 
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

@@ -13,3 +13,5 @@ namespace WorldDominion.Models
         public DbSet<Product> Products { get; set; }
     }
 }
+
+// DbContext는 DB와 연결해주는 것

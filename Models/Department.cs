@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.Net.Http.Headers;
 
 namespace WorldDominion.Models
 {
@@ -16,7 +15,7 @@ namespace WorldDominion.Models
 
         // Relationship with Products and place to store product
         // ICollection : Alias for List
-        public virtual ICollection<Product> Products {get; set;} = new List<Product>();
+        public virtual ICollection<Product>? Products {get; set;} = new List<Product>();
 
     }
 }

@@ -7,7 +7,11 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New</a>  <!-- asp-action 속성은 Razor 페이지 내에서 URL 생성할때 사용됨 -->
 </p>
 
-<partial name="~/Views/Shared/Products/_ProductsTablePartial.cshtml" model="Model" />
+<partial name="~/Views/Shared/Products/_ProductsTablePartial.cshtml" model="Model" />  
+<!--  
+    model="Model" 은 Product 모델에서 Index 부분에서  
+    return View(await applicationDbContext.ToListAsync()); 뷰에 전달한 이구문을 받는것.
+-->

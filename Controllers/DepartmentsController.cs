@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WorldDominion.Models;
 
@@ -48,8 +43,14 @@ namespace WorldDominion.Controllers
             var department = await _context.Departments // 비동기적으로 데이터 조회
                 // Accessing the department's table and selecting all the departments
                 // Include: join. Products 테이블과 조인한 후 OrderBy 사용. Products 테이블을 Name속성 기준으로 정렬
+                /* 
+                   SELECT * FROM Departments AS d
+                   JOIN Products AS p ON d.Id = p.DepartmentId
+                   WHERE d.Id = id
+                   ORDER BY pName;
+                */ 
                 .Include(department =>  department.Products.OrderBy(product => product.Name))
-                .FirstOrDefaultAsync(m => m.Id == id);  // SELECT * FROM departments WHERE Id = id;
+                .FirstOrDefaultAsync(m => m.Id == id);  // SELECT * FROM departments WHERE Id = id;. 여기서 m은 Departments 테이블의 각 레코드를 나타냄
             if (department == null)
             {
                 return NotFound();
