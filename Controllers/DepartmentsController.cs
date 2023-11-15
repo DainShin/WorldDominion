@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WorldDominion.Models;
@@ -12,7 +13,7 @@ namespace WorldDominion.Controllers
 
         // DepartmentsController 클래스 생성자
         // ApplicationDbContext 타입의 파라미터를 받아 _context 필드 초기화
-        public DepartmentsController(ApplicationDbContext context)
+        public DepartmentsController(ApplicationDbContext context)  // programs.cs 파일에서 context 받아옴
         {
             _context = context;
         }
@@ -49,6 +50,7 @@ namespace WorldDominion.Controllers
                    WHERE d.Id = id
                    ORDER BY pName;
                 */ 
+                // 이 코드로 Department detail 페이지에서 product 정보를 볼 수 있음
                 .Include(department =>  department.Products.OrderBy(product => product.Name))
                 .FirstOrDefaultAsync(m => m.Id == id);  // SELECT * FROM departments WHERE Id = id;. 여기서 m은 Departments 테이블의 각 레코드를 나타냄
             if (department == null)
@@ -60,6 +62,7 @@ namespace WorldDominion.Controllers
         }
 
         // GET: Departments/Create
+        [Authorize(Roles="Admin")]    
         public IActionResult Create()
         {
             return View();
@@ -68,6 +71,7 @@ namespace WorldDominion.Controllers
         // POST: Departments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles="Admin")] 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description")] Department department)
@@ -82,6 +86,7 @@ namespace WorldDominion.Controllers
         }
 
         // GET: Departments/Edit/5
+        [Authorize(Roles="Admin")] 
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Departments == null)
@@ -100,6 +105,7 @@ namespace WorldDominion.Controllers
         // POST: Departments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles="Admin")] 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Department department)
@@ -133,6 +139,7 @@ namespace WorldDominion.Controllers
         }
 
         // GET: Departments/Delete/5
+        [Authorize(Roles="Admin")] 
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Departments == null)
@@ -151,6 +158,7 @@ namespace WorldDominion.Controllers
         }
 
         // POST: Departments/Delete/5
+        [Authorize(Roles="Admin")] 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

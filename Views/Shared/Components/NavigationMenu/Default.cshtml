@@ -16,6 +16,41 @@
                     </li>
                 }
             </ul>
+
+            @* login 했으면 logout만 보여줌 *@
+            <ul class="navbar-nav">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a asp-area="Identity" asp-page="/Acoount/Manage/Index" 
+                        class="nav-link text-dark">
+                            Hello @User.Identity.Name!
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a asp-area="Identity" asp-page="/Account/Logout" class="nav-link text-dark">
+                        </a>
+                    </li>
+                } 
+                else 
+                {
+                    <li class="nav-item">
+                       <a asp-area="Identity" asp-page="/Account/Register"
+                       class="nav-link text-dark">
+                            Register
+                       </a>
+                    </li>
+
+                     <li class="nav-item">
+                       <a asp-area="Identity" asp-page="/Account/Login"
+                       class="nav-link text-dark">
+                            Login
+                       </a>
+                    </li>
+                }   
+            </ul>
+
         </div>
     </div>
 </nav>

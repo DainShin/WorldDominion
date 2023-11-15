@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using WorldDominion.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,13 +18,28 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseMySQL(
 builder.Services.AddSession(options => {
     options.IdleTimeout = TimeSpan.FromMinutes(30); // 쇼핑카트는 30분동안 저장됨
     options.Cookie.HttpOnly = true; // cookie only can come from the browser
-    options.Cookie.IsEssential = true; 
+    options.Cookie.IsEssential = true; // 
 });
 
-var app = builder.Build();
+// Adding identity service and roles
+builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+// Registering the DbInitializer seeder
+builder.Services.AddTransient<DbInitializer>();  
+
+// Register Google Auth
+builder.Services.AddAuthentication().AddGoogle(options =>
+{
+    options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+});
+
+var app = builder.Build(); // 서비스는 항상 이 코드 전에
 
 // Turn on our seesions
-app.UseSession(); 
+app.UseSession(); // controller로 가기 전까지 미들웨어와 interact. 
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -37,6 +54,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Setup authentication & authorization
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -54,5 +73,15 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorPages();
+
+var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+using var scope = scopeFactory.CreateScope();
+var Initiallizer = scope.ServiceProvider.GetRequiredService<DbInitializer>();
+await DbInitializer.Initiallizer(
+    scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>(),
+    scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>()
+);
 
 app.Run();
