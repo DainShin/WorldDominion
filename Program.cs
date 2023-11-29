@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using WorldDominion.Models;
+using WorldDominion.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,8 @@ builder.Services.AddAuthentication().AddGoogle(options =>
     options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
     options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
 });
+
+builder.Services.AddScoped<CartService>(); // AddScoped는 서비스 컨테이너에 서비스를 등록하느 메서드 중 하나
 
 var app = builder.Build(); // 서비스는 항상 이 코드 전에
 
@@ -78,8 +81,8 @@ app.MapRazorPages();
 
 var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
 using var scope = scopeFactory.CreateScope();
-var Initiallizer = scope.ServiceProvider.GetRequiredService<DbInitializer>();
-await DbInitializer.Initiallizer(
+// var Initiallizer = scope.ServiceProvider.GetRequiredService<DbInitializer>();
+await DbInitializer.Initiallize(
     scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>(),
     scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>()
 );

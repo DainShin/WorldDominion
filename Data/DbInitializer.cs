@@ -4,7 +4,7 @@ namespace WorldDominion.Models
 {
     public class DbInitializer
     {
-        public static async Task Initiallizer(
+        public static async Task Initiallize(
             UserManager<IdentityUser> userManager,
             RoleManager<IdentityRole> roleManager)
         

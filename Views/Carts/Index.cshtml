@@ -15,6 +15,7 @@
                 <th>Quantity</th>
                 <th>Price</th>
                 <th>Subtotal</th>
+                <th>Actions</th>
             </tr>
         </thead>
         
@@ -28,6 +29,12 @@
                     <td>
                         @((decimal)(cartItem.Quantity * cartItem.Product.MSRP))
                     </td>
+                    <td>
+                        <form asp-action="RemoveFromCart">
+                            <input type="hidden" name="productId" asp-for="@cartItem.ProductId">
+                            <input type="submit" value="Remove" clas="btn btn-danger">
+                        </form>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -35,10 +42,17 @@
         <tfoot>
             <tr>
                 <th>Total</th>
-                <td colspan="3">
+                <td colspan="4">
                     @(Model.CartItems.Sum(cartItem => (decimal)(cartItem.Quantity * cartItem.Product.MSRP)))
                 </td>
             </tr>
         </tfoot>
     </table>
+}
+
+@if (Model.CartItems.Count > 0 )
+{
+    <a class="btn btn-success" asp-controller="Orders" asp-action="Checkout">
+        Checkout
+    </a>
 }
