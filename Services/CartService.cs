@@ -29,5 +29,10 @@ namespace WorldDominion.Services
             // _cartSessionKey에 해당하는 세션에 Json 문자열을 저장
             _httpContextAccessor.HttpContext.Session.SetString(_cartSessionKey, cartJson);
         }
+
+        public void DestroyCart()
+        {
+            _httpContextAccessor.HttpContext.Session.Remove(_cartSessionKey);
+        }
     }
 }

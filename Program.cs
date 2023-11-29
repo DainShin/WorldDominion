@@ -39,6 +39,8 @@ builder.Services.AddAuthentication().AddGoogle(options =>
 
 builder.Services.AddScoped<CartService>(); // AddScoped는 서비스 컨테이너에 서비스를 등록하느 메서드 중 하나
 
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration); // 
+
 var app = builder.Build(); // 서비스는 항상 이 코드 전에
 
 // Turn on our seesions

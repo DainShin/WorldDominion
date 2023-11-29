@@ -64,7 +64,7 @@
 <div>
     @if (!Model.PaymentReceived)
     {
-        <form>
+        <form asp-action="ProcessPayment">
             <button class="btn btn-success">Proceed to Payment</button>
         </form>
     }
