@@ -15,6 +15,15 @@
                         <a class="nav-link text-dark"  asp-controller="@menuItem.Controller" asp-action="@menuItem.Action">@menuItem.Label</a>
                     </li>
                 }
+                
+                 @if ( User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Orders" asp-action="Index">
+                            Orders
+                        </a>
+                    </li>   
+                } 
             </ul>
 
             @* login 했으면 logout만 보여줌 *@
@@ -49,7 +58,8 @@
                             Login
                        </a>
                     </li>
-                }   
+                }
+               
             </ul>
 
         </div>

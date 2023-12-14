@@ -32,7 +32,6 @@ namespace WorldDominion.Controllers
             if (userId == null) return NotFound();
 
             var orders = await _context.Orders
-                .Include(order => order.OrderItems)
                 .Include(order => order.User)
                 .Where(order => order.UserId == userId)
                 .Where(order => order.PaymentReceived == true)
